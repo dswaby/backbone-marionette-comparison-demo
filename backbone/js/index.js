@@ -2,42 +2,13 @@ define(
   ["jquery", 
   "underscore", 
   "backbone",
+  "./viewManager",
   "hbs!templates/SalesItemView",
   "hbs!templates/AboutView",
   "hbs!templates/ViewPickerView",
   "hbs!templates/SalesCollectionView"
-  ], function ($, _, Backbone, saleItemTpl, aboutTpl, viewPickerTpl, salesCollectionTpl){
+  ], function ($, _, Backbone, vm, saleItemTpl, aboutTpl, viewPickerTpl, salesCollectionTpl){
   // for unbinding events and removing html from view and subviews before rendering new view
-  var viewManager = (function() {
-    var currentView;
-    function showView(view) {
-      disposeView(currentView, function() {
-        render(view);
-      });
-    }
-    function disposeView(view, callback) {
-      if (!view) {
-        return callback();
-      }
-      _disposeView(view);
-      return callback();
-      function _disposeView(view) {
-        view.subviews && view.subviews.forEach(function(subview) {
-          _disposeView(subview);
-        });
-        view.remove();
-      }
-    }
-    function render(view) {
-      currentView = view;
-      $("#sale-items-region").html(currentView.el);
-      currentView.render();
-    }
-    return {
-      show: showView
-    };
-  })();
-
   var App = {
     Models: {},
     Views: {},
@@ -102,13 +73,13 @@ define(
     },
     template: viewPickerTpl,
     showAboutView: function(){
-      viewManager.show(new App.Views.AboutView());
+      vm.show(new App.Views.AboutView());
     },
     showCollectionView: function(){
       var sales = new App.Collections.SalesCollection();
       sales.fetch({
         success: function(data){
-          viewManager.show(new App.Views.SaleCollectionView({ collection: data }));
+          vm.show(new App.Views.SaleCollectionView({ collection: data }));
         }
       });
     }

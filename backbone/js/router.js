@@ -5,7 +5,6 @@ define([
   './index'
 ],
 function ($, _, Backbone, index) {
-
   var Router = Backbone.Router.extend({
     routes: {
       '': 'loadIndex',

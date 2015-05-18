@@ -1,7 +1,7 @@
 define["jquery", "underscore", "backbone", "./Entities", "./../app"], function ($, _, Backbone, Entities, App){
 
-  Entities.Pillow = Backbone.Model.extend({
-    urlRoot: "pillows",
+  Entities.SaleItem = Backbone.Model.extend({
+    urlRoot: "saleitems",
     defaults: {
       distributer: "",
       brand:"",
@@ -28,44 +28,36 @@ define["jquery", "underscore", "backbone", "./Entities", "./../app"], function (
         return errors;
       }
     }
-
   });
 
-  Entities.configureStorage("App.Entities.Pillow");
+  Entities.configureStorage("App.Entities.SaleItem");
 
-  Entities.PillowsCollection = Backbone.Collection.extend({
-    urlRoot: "pillows",
-    model: PillowModel,
-
+  Entities.SaleItemsCollection = Backbone.Collection.extend({
+    urlRoot: "saleitems",
+    model: SaleItem
   });
 
-  Entities.configureStorage("App.Entities.Pillows");
+  Entities.configureStorage("App.Entities.SaleItems");
 
   //private variables
-  var pillowDefaults = [{
-    "joke": "why did the js dev cross the road?",
-    "punchline": "some hilarious punch line"
-  }, {
-    "joke": "A js dev waks into a bar, the bartender says......",
-    "punchline": "some hilarious punchline including limits"
-  }];
   // accessors we will expose via RequestResponse handler
   var API = {
     getExampleEntities: function() {
       var defer = $.Deferred();
       //set timeout just for example purposes
-      setTimeout(function() {
-        var jokesCollection = new Backbone.Collection(pillowDefaults);
+      // setTimeout(function() {
         
-        console.log("called after 3000ms");
-        defer.resolve(jokesCollection);
-      }, 3000);
+      var jokesCollection = new Backbone.Collection(pillowDefaults);
+      
+      console.log("called after 3000ms");
+      defer.resolve(jokesCollection);
+      // }, 3000);
       return defer.promise();
     },
     getExampleEntityById: function(entityId) {
-      var jokeEntity = new JokeModel({id: entityId});
+      var SaleItem = new SaleItem({id: entityId});
       var defer = $.Deferred();
-      jokeEntity.fetch({
+      SaleItem.fetch({
         success: function(joke) {
           defer.resolve(joke);
         },

@@ -1,4 +1,4 @@
-define["jquery", "underscore", "backbone"], function ($, _, Backbone){
+define(["jquery", "underscore", "backbone"], function ($, _, Backbone){
   var viewManager = (function() {
     var currentView;
     function showView(view) {
@@ -30,4 +30,4 @@ define["jquery", "underscore", "backbone"], function ($, _, Backbone){
   })();
 
   return viewManager;
-};
+});
